@@ -1,7 +1,15 @@
 import _ from 'lodash'
 
-
-const ArraySort = (arr, sort = 'asc', key) => {
+/**
+ * 数组排序  支持数组对像
+ * @param arr
+ * @param sort
+ * @param key      对像的排序字段
+ * @param delUnit   是否要删除的单位，删除后当数值处理  eg  12.36%
+ * @returns []
+ * @constructor
+ */
+const ArraySort = (arr, sort = 'asc', key, delUnit) => {
   if (Object.prototype.toString.call(arr) !== '[object Array]') {
     console.error('第一个参数必须是数组')
     return
@@ -21,6 +29,10 @@ const ArraySort = (arr, sort = 'asc', key) => {
   notZhArray.sort(function (a, b) {
     let valueA = key ? a[key] : a
     let valueB = key ? b[key] : b
+    if(delUnit){
+      valueA = valueA.replace(delUnit,'') - 0
+      valueB = valueB.replace(delUnit,'') - 0
+    }
     if (sort === 'asc') {
       return valueA > valueB ? 1 : -1
     }
